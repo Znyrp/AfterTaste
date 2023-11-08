@@ -8,5 +8,17 @@ namespace AfterTaste.Controllers
         {
             return View();
         }
+        public IActionResult KoreanFriedChicken()
+        {
+            return View();
+        }
+        public IActionResult IndianStew()
+        {
+            return View();
+        }
+        public IActionResult ItalianMeatballs()
+        {
+            return View();
+        }
     }
 }
