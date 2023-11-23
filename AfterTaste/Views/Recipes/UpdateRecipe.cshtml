@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Recipe;
+
+<main id="main">
+
+    <!-- ======= Recipe Section ======= -->
+    <section id="recipe" class="recipe">
+        <div class="container">
+
+            <h1 class="display-6">Edit Recipe</h1>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-action="UpdateRecipe" asp-controller="Recipes" method="post">
+                <div class="row">
+
+
+                    <div class="form-group col-md-12">
+                        <label asp-for="recipeName"></label>
+                        <input class="form-control" asp-for="recipeName">
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label asp-for="recipeDescription"></label>
+                        <input class="form-control" asp-for="recipeDescription">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label asp-for="Origin"></label>
+                        <select class="form-control form-select" asp-items="@Html.GetEnumSelectList(typeof(Origin))" aria-describedby="CourseHelp" placeholder="Select Origin" asp-for="Origin">
+                        </select>
+                    </div>
+
+                    <div class="form-group col">
+                        <label asp-for="recipeVideo"></label>
+                        <input class="form-control" asp-for="recipeVideo">
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="recipeDirections"></label>
+                    <input class="form-control" asp-for="recipeDirections">
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="recipeIngredients"></label>
+                    <input class="form-control" asp-for="recipeIngredients">
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="history.back()">Cancel</button>
+            </form>
+
+        </div>
+    </section>
+</main>

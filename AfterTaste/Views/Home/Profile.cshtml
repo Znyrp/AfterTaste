@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using Microsoft.AspNetCore.Identity;
+@using AfterTaste.Data;
+
+@inject UserManager<User> _userManager;
+
+<!-- ======= Hero Section ======= -->
+<section class="breadcrumbs">
+	<div class="container">
+
+		<div class="d-flex justify-content-between align-items-center">
+			<h2>Profile</h2>
+		</div>
+
+	</div>
+</section><!-- End Breadcrumbs Section -->
+
+<section id="profile" class="profile">
+
+	<div class="container">
+		<div class="main-body">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="d-flex flex-column align-items-center text-center">
+								<h2 class="h2-sign">
+									User <span>Info</span>
+								</h2>
+								<img src="/img/testimonials/testimonials-1.jpg" class="profile-img" alt="">
+								<div class="mt-3">
+									<h4>@_userManager.GetUserAsync(User).Result.Firstname @_userManager.GetUserAsync(User).Result.Lastname</h4>
+									<hr class="my-4">
+									<p class="text-secondary mb-1">Email : @_userManager.GetUserAsync(User).Result.Email</p>
+									<p class="text-secondary mb-1">Contact Number : @_userManager.GetUserAsync(User).Result.PhoneNumber</p>
+									<p class="text-secondary mb-1">Address : @_userManager.GetUserAsync(User).Result.Address</p>
+								</div>
+								<br />
+								<br />
+								<button type="submit" class="profile-button">Edit Info</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card">
+						<div class="card-body">
+							<nav>
+								<div class="nav nav-tabs" id="nav-tab" role="tablist">
+									<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Created Recipes</button>
+									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favourite Recipes</button>
+								</div>
+							</nav>
+							<div class="tab-content" id="nav-tabContent">
+								<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+									something something
+
+								</div>
+
+								<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+									something something
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section><!-- Top Recipe Section -->

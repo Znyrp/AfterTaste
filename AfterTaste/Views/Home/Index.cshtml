@@ -21,7 +21,7 @@
                                 </p>
                                 <div>
                                     <a href="#menu" class="btn-menu animate__animated animate__fadeInUp scrollto">Explore</a>
-                                    <a href="#book-a-table" class="btn-book animate__animated animate__fadeInUp scrollto">
+                                    <a asp-action="AddRecipe" asp-controller="Recipes" class="btn-book animate__animated animate__fadeInUp scrollto">
                                         Share A
                                         Recipe
                                     </a>
@@ -101,7 +101,7 @@
                         atque vitae
                         autem.
                     </p>
-                    <a href="#book-a-table" class="book-a-table-btn scrollto my-4">Show More</a>
+                    <a asp-action="TopRatedRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Show More</a>
 
                 </div>
 
@@ -179,94 +179,7 @@
 
             </div>
         </section><!-- Top Recipe Section -->
-        <!-- =======Trending Recipe Section ======= -->
-        <section id="recipe" class="recipe">
-            <div class="container">
-
-                <div class="section-title">
-                    <h2> Trending <span>Recipes</span></h2>
-                    <p class="pb-2">
-                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
-                        atque vitae
-                        autem.
-                    </p>
-                    <a href="#book-a-table" class="book-a-table-btn scrollto my-4">Show More</a>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/malabon.png" class="img-fluid" alt=""></div>
-                            </a>
-                            <div class="member-info">
-                                <h4>Pancit Malabon</h4>
-                                <span>Philippines</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.2</a>
-                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
-                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/donka.jpg" class="img-fluid" alt=""></div>
-                            </a>
-                            <div class="member-info">
-                                <h4>Donkkaseu</h4>
-                                <span>South Korea</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.4</a>
-                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
-                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/curry.png" class="img-fluid" alt=""></div>
-                            </a>
-                            <div class="member-info">
-                                <h4>Crab Curry</h4>
-                                <span>India</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.4</a>
-                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
-                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/saltim.jpg" class="img-fluid" alt=""></div>
-                            </a>
-                            <div class="member-info">
-                                <h4>Chicken Saltimbocca</h4>
-                                <span>Italy</span>
-                                <div class="social">
-                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.3</a>
-                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
-                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </section><!-- Trending Recipe Section -->
+        
         <!-- =======Recipes Around the World Section ======= -->
         <section id="recipe" class="recipe">
             <div class="container">

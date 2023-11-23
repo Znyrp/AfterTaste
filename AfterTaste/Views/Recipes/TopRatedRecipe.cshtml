@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+}
+@model IEnumerable<Recipe>;
+
+<main id="main">
+
+    <!-- ======= Recipe Section ======= -->
+    <section id="recipe" class="recipe">
+
+            <div class="container">
+
+                <div class="section-title mt-5">
+                    <h2> Top Rated <span>Recipes</span></h2>
+                    <p class="pb-2">
+                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
+                        atque vitae
+                        autem.
+                    </p>
+                    <a asp-action="AddRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Share A Recipe</a>
+
+                </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @foreach (var Recipe in Model)
+                {
+                    <div class="col">
+                        <div class="card">
+                            <a asp-action="RecipeDetails" asp-route-Id="@Recipe.recipeId">
+                            <img src="/img/recipe/adobo.jpg" class="card-img-top" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">@Recipe.recipeName <span class="badge rounded-pill bg-warning text-dark ms-2">@Recipe.Origin</span></h5>
+                                <p class="card-text">@Recipe.recipeDescription</p>
+                            </div>
+                            <div class="social d-flex justify-content-center mb-2 gap-4">
+                                <h4 style="font-family:Bahnschrift">
+                                <a asp-action="UpdateRecipe" asp-controller="Recipes" asp-route-Id="@Recipe.recipeId" class="book-a-table-btn scrollto my-4">Edit Recipe</a>
+                                <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
+                                <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+           </div>
+
+    </section><!-- Top Recipe Section -->
+
+
+
+
+
+</main><!-- End #main -->

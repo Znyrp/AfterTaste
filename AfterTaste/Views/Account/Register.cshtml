@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using AfterTaste.ViewModels
+@model SignUpViewModel
+<main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+
+    
+    <form asp-action="Register" asp-controller="Account">
+
+    <section id="recipe" class="recipe">
+      <div class="sign-up-container">
+        <div class="container">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+          <h1 style="font-family:Bahnschrift ; text-align:center">Sign Up</h1>
+          <h4 class="h2-sign lead" style="color:black; font-family:Bahnschrift">
+            Explore your taste buds and be an AfterTaster
+          </h4>
+    
+                <div class="form-floating mb-3 col-md">
+                    <input asp-for="username" class="form-control" placeholder="">
+                    <label asp-for="username"></label>
+                </div>
+
+            <div class="row g-2 mb-3">
+                <div class="form-floating col-md">
+                    <input asp-for="userPassword" class="form-control" placeholder="">
+                    <label asp-for="userPassword"></label>
+                </div>
+
+                <div class="form-floating col-md">
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="">
+                    <label asp-for="ConfirmPassword"></label>
+                </div>
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="form-floating col-md">
+                    <input asp-for="firstName" class="form-control" placeholder="">
+                    <label asp-for="firstName"></label>
+                </div>
+                <div class="form-floating col-md">
+                    <input asp-for="lastName" class="form-control" placeholder="">
+                    <label asp-for="lastName"></label>
+                </div>
+            </div>
+
+                <div class="form-floating mb-3 col-md">
+                     <input asp-for="email" class="form-control" placeholder="">
+                     <label asp-for="email"></label>
+                 </div>
+
+                 <div class="form-floating mb-3 col-md">
+                     <input asp-for="address" class="form-control" placeholder="">
+                     <label asp-for="address"></label>
+                 </div>
+
+            <div class="row g-2 mb-3">
+                <div class="form-floating col-md">
+                    <input asp-for="birthdate" class="form-control" placeholder="">
+                    <label asp-for="birthdate"></label>
+                </div>
+                <div class="form-floating col-md">
+                    <input asp-for="contactNumber" class="form-control" placeholder="">
+                    <label asp-for="contactNumber"></label>
+                </div>
+            </div>
+
+            <div class="text-center">
+                    <p>Have an account already? <a asp-area="" asp-controller="Account" asp-action="Login"> Sign in</a>! </p>
+              <!-- Submit button -->
+              <button type="submit" class="sign-up-button">Sign Up</button>
+            </div>
+
+
+        </div>
+       
+      </div>
+    </section><!-- Top Recipe Section -->
+
+    </form>
+  </main><!-- End #main -->
