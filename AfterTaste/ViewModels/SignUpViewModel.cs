@@ -32,7 +32,7 @@ namespace AfterTaste.ViewModels
         [Display(Name = "Lastname")]
         [Required(ErrorMessage = "Lastname is required")]
         public string? lastName { get; set; }
-        public string? profilePicture { get; set; }
+        public byte[]? profilePicture { get; set; }
 
         [Display(Name = "Contact Number")]
         [Required(ErrorMessage = "Contact Number is required")]

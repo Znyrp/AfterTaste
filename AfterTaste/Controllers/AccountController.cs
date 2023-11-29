@@ -49,7 +49,7 @@ namespace AfterTaste.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(SignUpViewModel userEnteredData)
+        public async Task<IActionResult> Register(SignUpViewModel userEnteredData, IFormFile profilePicture)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +60,13 @@ namespace AfterTaste.Controllers
                 newUser.Email = userEnteredData.email;
                 newUser.Address = userEnteredData.address;
                 newUser.PhoneNumber = userEnteredData.contactNumber;
+
+                if (profilePicture != null && profilePicture.Length > 0)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await profilePicture.CopyToAsync(memoryStream);
+                    newUser.ProfilePicture = memoryStream.ToArray();
+                }
 
                 var result = await _userManager.CreateAsync(newUser, userEnteredData.userPassword);
                 if (result.Succeeded)

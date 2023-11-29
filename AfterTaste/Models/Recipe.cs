@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using AfterTaste.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AfterTaste.Models
@@ -10,17 +13,19 @@ namespace AfterTaste.Models
 
     public class Recipe
     {
-
+        
         public int recipeId { get; set; }
-        public int userId { get; set; }
-        [ForeignKey("userId")]
+        [ForeignKey("Id")]
+        public string? userId { get; set; }
+        public User? User { get; set; }
         public string? recipeName { get; set; }
         public string? recipeDescription { get; set; }
         public string? recipeVideo { get; set; }
-        public string? recipeImage { get; set; }
+        public byte[]? recipeImage { get; set; }
         public string? recipeDirections { get; set; }
         public string? recipeIngredients { get; set; }
         public Origin Origin { get; set; }
+        public int? recipeCalories { get; set; }
 
 
 

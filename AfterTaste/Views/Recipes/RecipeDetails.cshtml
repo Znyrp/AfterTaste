@@ -1,7 +1,10 @@
+﻿
+
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+
 }
 @model Recipe;
 
@@ -18,7 +21,7 @@
                         <p>@Model.recipeDescription</p>
                     </blockquote>
                     <figcaption class="blockquote-footer">
-                        Sanjeev Kapoor Khazana
+                       @Model.User.Firstname @Model.User.Lastname
                     </figcaption>
                 </figure>
                 <div class="gap-3 d-flex justify-content-center mb-2">
@@ -43,9 +46,12 @@
                     <h1 class="py-2">Ingredients Needed</h1>
                     <div class="row">
                         <div class="col-lg-12 py-2">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">@Model.recipeIngredients</li>
-                            </ul>
+                            <ol class="list-group list-group-numbered">
+                                @foreach (var ingredients in Model.recipeIngredients.Split('\n'))
+                                {
+                                    <li class="list-group-item">@ingredients</li>
+                                }
+                            </ol>
                         </div>
                     </div>
 
@@ -53,8 +59,19 @@
                     <div class="row">
                         <div class="col-lg-12 py-2">
                             <ol class="list-group list-group-numbered">
-                                <li class="list-group-item">@Model.recipeDirections</li>
-                                </li>
+                                @foreach (var direction in Model.recipeDirections.Split('\n'))
+                                {
+                                    <li class="list-group-item">@direction</li>
+                                }
+                            </ol>
+                        </div>
+                    </div>
+
+                    <h1 class="py-2">Calories</h1>
+                    <div class="row">
+                        <div class="col-lg-12 py-2">
+                            <ol class="list-group">
+                                <li class="list-group-item">@Model.recipeCalories</li>
                             </ol>
                         </div>
                     </div>

@@ -10,7 +10,7 @@
     <!-- ======= Breadcrumbs Section ======= -->
 
     
-    <form asp-action="Register" asp-controller="Account">
+    <form asp-action="Register" asp-controller="Account" enctype="multipart/form-data">
 
     <section id="recipe" class="recipe">
       <div class="sign-up-container">
@@ -68,6 +68,11 @@
                     <label asp-for="contactNumber"></label>
                 </div>
             </div>
+
+                <div class="form-floating mb-3 col-md">
+                    <input asp-for="profilePicture" class="form-control" placeholder="" type="file">
+                    <label asp-for="profilePicture"></label>
+                </div>
 
             <div class="text-center">
                     <p>Have an account already? <a asp-area="" asp-controller="Account" asp-action="Login"> Sign in</a>! </p>
