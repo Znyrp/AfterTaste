@@ -35,16 +35,26 @@
                                     <div>
                                         <img src="data:image;base64,@Convert.ToBase64String(Recipe.recipeImage)" alt="Recipe Image" class="card-img-top">
                                     </div>
+                                }else
+                                {
+                                    <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Recipe Image" class="card-img-top">
                                 }
                             </a>
                             <div class="card-body">
+                                <div id="messageContainer_@Recipe.recipeId">
+                                    @if (TempData[$"Message_{Recipe.recipeId}"] != null)
+                                    {
+                                        var message = TempData[$"Message_{Recipe.recipeId}"].ToString();
+                                        <div class="alert @((message.Contains("unfavorited")) ? "alert-danger" : "alert-success")" role="alert">@message</div>
+                                    }
+                                </div>
                                 <h5 class="card-title">@Recipe.recipeName <span class="badge rounded-pill bg-warning text-dark ms-2">@Recipe.Origin</span></h5>
                                 <p class="card-text">@Recipe.recipeDescription</p>
                             </div>
                             <div class="social d-flex justify-content-center mb-2 gap-4">
                                 <h4 style="font-family:Bahnschrift">
                                     <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
-                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                    <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Recipe.recipeId"><i class="bi bi-heart mx-2"></i></a>
                                     <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
                                 </h4>
                             </div>
@@ -71,3 +81,22 @@
 
 
 </main><!-- End #main -->
+@section Scripts {
+    <script>
+        // Remove message 
+        function removeMessage(recipeId) {
+            setTimeout(function () {
+                var messageContainer = document.getElementById(`messageContainer_${recipeId}`);
+                if (messageContainer) {
+                    messageContainer.parentNode.removeChild(messageContainer);
+                }
+            }, 2000); 
+        }
+
+        @foreach (var Recipe in Model)
+        {
+            var recipeId = Recipe.recipeId;
+            <text>removeMessage(@recipeId); </text>
+        }
+    </script>
+}

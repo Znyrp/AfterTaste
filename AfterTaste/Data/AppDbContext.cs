@@ -7,6 +7,7 @@ namespace AfterTaste.Data;
 public class AppDbContext : IdentityDbContext<User>
 {
     public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<FavoriteRecipe> Favorites { get; set; }
     
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -16,5 +17,8 @@ public class AppDbContext : IdentityDbContext<User>
         base.OnModelCreating(modelBuilder); // do not remove this!
 
         modelBuilder.Entity<Recipe>();
+
+        modelBuilder.Entity<FavoriteRecipe>();
+     
     }
 }

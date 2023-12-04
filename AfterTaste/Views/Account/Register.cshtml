@@ -16,6 +16,12 @@
       <div class="sign-up-container">
         <div class="container">
                     <div asp-validation-summary="All" class="text-danger"></div>
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
           <h1 style="font-family:Bahnschrift ; text-align:center">Sign Up</h1>
           <h4 class="h2-sign lead" style="color:black; font-family:Bahnschrift">
             Explore your taste buds and be an AfterTaster

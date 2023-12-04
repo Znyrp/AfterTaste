@@ -68,7 +68,7 @@ namespace AfterTaste.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddRecipe(Recipe newRecipe, IFormFile recipeImage)
+        public async Task<IActionResult> AddRecipe(Recipe newRecipe, IFormFile? recipeImage)
         {
             if (!ModelState.IsValid)
                 return View();
@@ -82,9 +82,12 @@ namespace AfterTaste.Controllers
                 newRecipe.recipeImage = memoryStream.ToArray();
             }
 
-
             // Set the UserId of the new recipe
             newRecipe.userId = userId;
+
+            //Convert youtube link to youtube embeddable link
+            newRecipe.recipeVideo = ConvertToEmbedUrl(newRecipe.recipeVideo);
+
 
             _dbData.Recipes.Add(newRecipe);
             _dbData.SaveChanges();
@@ -94,21 +97,20 @@ namespace AfterTaste.Controllers
         [HttpGet]
         public IActionResult UpdateRecipe(int id)
         {
-            //Search for the instructor whose id matches the given id
+            //Search for recipe whose id matches the given id
             Recipe? recipe = _dbData.Recipes.FirstOrDefault(rec => rec.recipeId == id);
 
-            if (recipe != null)//was an instructor found?
+            if (recipe != null)//was a recipe found?
                 return View(recipe);
 
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateRecipe(Recipe recipeChanges, IFormFile changeImage)
+        public async Task<IActionResult> UpdateRecipe(Recipe recipeChanges, IFormFile? changeImage)
         {
             if (ModelState.IsValid)
             {
-                // Assuming 'db' is your DbContext instance
                 Recipe? recipe = _dbData.Recipes.FirstOrDefault(rec => rec.recipeId == recipeChanges.recipeId);
 
                 if (recipe != null)
@@ -126,6 +128,10 @@ namespace AfterTaste.Controllers
                         using MemoryStream memoryStream = new MemoryStream();
                         await changeImage.CopyToAsync(memoryStream);
                         recipe.recipeImage = memoryStream.ToArray();
+                    }
+                    else
+                    {
+                        recipe.recipeImage = null; // Set recipeImage to null if no image provided
                     }
 
                     _dbData.Entry(recipe).State = EntityState.Modified;
@@ -172,6 +178,60 @@ namespace AfterTaste.Controllers
 
             return NotFound();
         }
+
+        public static string ConvertToEmbedUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return string.Empty;
+            }
+
+            // Extract the video ID from the URL
+            var videoId = new Uri(url).GetComponents(UriComponents.Query, UriFormat.Unescaped).Split('=')[1];
+
+            // Convert the video URL to an embed URL
+            var video = $"https://www.youtube.com/embed/{videoId}";
+            return video;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> AddFavorite(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var recipe = await _dbData.Recipes.FindAsync(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            var existingFavorite = await _dbData.Favorites.FirstOrDefaultAsync(f => f.recipeId == id && f.userId == userId);
+
+            if (existingFavorite != null)
+            {
+                // Recipe is unfavorited
+                _dbData.Favorites.Remove(existingFavorite);
+                await _dbData.SaveChangesAsync();
+                TempData[$"Message_{id}"] = "Recipe unfavorited successfully";
+            }
+            else
+            {
+                // Recipe is favorited
+                var favorite = new FavoriteRecipe
+                {
+                    userId = userId,
+                    recipeId = recipe.recipeId
+                };
+
+                _dbData.Favorites.Add(favorite);
+                await _dbData.SaveChangesAsync();
+                TempData[$"Message_{id}"] = "Recipe favorited successfully";
+            }
+
+            return RedirectToAction("TopRatedRecipe");
+        }
+
+
 
     }
 }

@@ -49,7 +49,7 @@ namespace AfterTaste.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(SignUpViewModel userEnteredData, IFormFile profilePicture)
+        public async Task<IActionResult> Register(SignUpViewModel userEnteredData, IFormFile? profilePicture)
         {
             if (ModelState.IsValid)
             {
@@ -59,6 +59,7 @@ namespace AfterTaste.Controllers
                 newUser.Lastname = userEnteredData.lastName;
                 newUser.Email = userEnteredData.email;
                 newUser.Address = userEnteredData.address;
+                newUser.Birthdate = userEnteredData.birthdate;
                 newUser.PhoneNumber = userEnteredData.contactNumber;
 
                 if (profilePicture != null && profilePicture.Length > 0)
@@ -67,11 +68,16 @@ namespace AfterTaste.Controllers
                     await profilePicture.CopyToAsync(memoryStream);
                     newUser.ProfilePicture = memoryStream.ToArray();
                 }
+                else
+                {
+                    newUser.ProfilePicture = null; // Set recipeImage to null if no image provided
+                }
 
                 var result = await _userManager.CreateAsync(newUser, userEnteredData.userPassword);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+					TempData["SuccessMessage"] = "Registration successful!, You may now Login";
+					return RedirectToAction("Register", "Account");
                 }
                 else
                 {
@@ -83,6 +89,110 @@ namespace AfterTaste.Controllers
             }
             return View(userEnteredData);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var profileData = new SignUpViewModel
+                {
+                    username = user.UserName,
+                    firstName = user.Firstname,
+                    lastName = user.Lastname,
+                    email = user.Email,
+                    birthdate = user.Birthdate,
+                    address = user.Address,
+                    contactNumber = user.PhoneNumber,
+                    profilePicture = user.ProfilePicture,
+                    userPassword = user.PasswordHash
+                    
+                };
+
+                return View(profileData);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(SignUpViewModel updatedProfile, IFormFile? profilePicture)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                //Update Password
+                if (!string.IsNullOrEmpty(updatedProfile.userPassword))
+                {
+                    var passwordValidator = _userManager.PasswordValidators.FirstOrDefault();
+                    var passwordValidationResult = await passwordValidator.ValidateAsync(_userManager, user, updatedProfile.userPassword);
+
+                    if (!passwordValidationResult.Succeeded)
+                    {
+                        foreach (var error in passwordValidationResult.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        return View(updatedProfile); // Return to the view if password validation fails
+                    }
+
+                    // If validation succeeded, update the password hash
+                    var newPasswordHash = _userManager.PasswordHasher.HashPassword(user, updatedProfile.userPassword);
+                    user.PasswordHash = newPasswordHash;
+                }
+
+                //Update User Profile
+                if (user != null)
+                {
+                    user.UserName = updatedProfile.username;
+                    user.Firstname = updatedProfile.firstName;
+                    user.Lastname = updatedProfile.lastName;
+                    user.Email = updatedProfile.email;
+                    user.Address = updatedProfile.address;
+                    user.Birthdate = updatedProfile.birthdate;
+                    user.PhoneNumber = updatedProfile.contactNumber;
+
+                    if (profilePicture != null && profilePicture.Length > 0)
+                    {
+                        using var memoryStream = new MemoryStream();
+                        await profilePicture.CopyToAsync(memoryStream);
+                        user.ProfilePicture = memoryStream.ToArray();
+                    }
+                    else
+                    {
+						user.ProfilePicture = null;
+					}
+
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["SuccessMessage"] = "Account Updated Successfully!";
+
+                        return RedirectToAction("EditProfile", "Account"); // Redirect to the Sign In page after sign-out
+					}
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            // If ModelState is not valid, return to the view with the current data
+            return View(updatedProfile);
+        }
+
 
     }
 }

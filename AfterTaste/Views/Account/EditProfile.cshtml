@@ -16,6 +16,12 @@
             <div class="sign-up-container">
                 <div class="container">
                     <div asp-validation-summary="All" class="text-danger"></div>
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
                     <h1 style="font-family:Bahnschrift ; text-align:center">Edit Profile</h1>
 
                     <div class="form-floating mb-3 col-md">
@@ -71,9 +77,10 @@
                         <label asp-for="profilePicture"></label>
                     </div>
 
-                    <div class="text-center">
+                    <div class="text-center d-flex justify-content-center">
                         <!-- Submit button -->
-                        <button type="submit" class="sign-up-button">Sign Up</button>
+                        <button type="submit" class="sign-up-button">Save</button>
+                        <a class="sign-up-button" asp-action="Profile" asp-controller="Home">Back</a>
                     </div>
 
 

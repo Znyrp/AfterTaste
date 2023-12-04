@@ -1898,8 +1898,10 @@ section {
 
 .profile-img {
     width: 200px;
+    height: 200px;
     border-radius: 50%;
-    border: 6px solid rgba(255, 255, 255, 0.15);
+    border: 3px solid;
+    border-color: black;
     margin: 0 auto;
 }
 
@@ -1940,4 +1942,10 @@ section {
     .profile {
         background-attachment: fixed;
     }
+}
+
+/* Card */
+.card-img-top {
+    height: 200px; /* Adjust the height to your preference */
+    object-fit: cover; /* Ensure images maintain aspect ratio within the fixed height */
 }

@@ -27,8 +27,6 @@ namespace AfterTaste.Models
         public Origin Origin { get; set; }
         public int? recipeCalories { get; set; }
 
-
-
     }
 
 }
