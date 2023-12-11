@@ -29,7 +29,14 @@ namespace AfterTaste.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                var user = await _userManager.FindByNameAsync(loginInfo.UserName);
+
+                if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Dashboard", "Admin"); // Redirect admin to the dashboard
+                }
+
+                return RedirectToAction("Index", "Home"); // Redirect regular users to the homepage
             }
             else
             {

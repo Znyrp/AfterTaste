@@ -39,6 +39,11 @@ namespace AfterTaste.Controllers
             return View(_dbData.Recipes);
         }
 
+        public IActionResult ExploreRecipes()
+        {
+            return View(_dbData.Recipes);
+        }
+
         public async Task<IActionResult> RecipeDetails(int id)
         {
             //Search for the recipe whose id matches the given id
@@ -65,8 +70,10 @@ namespace AfterTaste.Controllers
         [HttpGet]
         public IActionResult AddRecipe()
         {
+
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> AddRecipe(Recipe newRecipe, IFormFile? recipeImage)
         {
@@ -81,6 +88,8 @@ namespace AfterTaste.Controllers
                 await recipeImage.CopyToAsync(memoryStream);
                 newRecipe.recipeImage = memoryStream.ToArray();
             }
+
+            newRecipe.Status = RecipeStatus.Pending;
 
             // Set the UserId of the new recipe
             newRecipe.userId = userId;
@@ -228,7 +237,18 @@ namespace AfterTaste.Controllers
                 TempData[$"Message_{id}"] = "Recipe favorited successfully";
             }
 
-            return RedirectToAction("TopRatedRecipe");
+            // Determine the referrer URL
+            string referrer = Request.Headers["Referer"].ToString();
+
+            // Check if the referrer is the RecipeDetails URL
+            if (referrer.Contains("RecipeDetails"))
+            {
+                return RedirectToAction("RecipeDetails", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("TopRatedRecipe");
+            }
         }
 
 

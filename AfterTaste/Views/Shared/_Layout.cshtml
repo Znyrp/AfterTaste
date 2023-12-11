@@ -29,13 +29,19 @@
     <header id="header" class="fixed-top d-flex align-items-center header-transparent">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <div class="logo me-auto">
-                <!-- <h1><a href="index.html">AfterTaste</a></h1> -->
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <a asp-area="" asp-controller="Home" asp-action="Index"><img src="/img/logo.png" alt="" class="img-fluid"></a>
-            </div>
+            @if(!User.IsInRole("Admin"))
+            {
+                <div class="logo me-auto">
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><img src="/img/logo.png" alt="" class="img-fluid"></a>
+                </div>
+            }else{
+                <div class="logo me-auto">
+                    <a asp-area="" asp-controller="Admin" asp-action="Dashboard"><img src="/img/logo.png" alt="" class="img-fluid"></a>
+                </div>
+            }
             
-            @if (User.Identity.IsAuthenticated)
+
+            @if (User.Identity.IsAuthenticated && (!User.IsInRole("Admin")))
             {
                 <nav id="navbar" class="navbar order-last order-lg-0">
                     <ul>
@@ -43,16 +49,16 @@
 
                         <li><a class="nav-link" asp-area="" asp-controller="About" asp-action="Index">About Us</a></li>
                         <li class="dropdown">
-                            <a href="@Url.Action("Index", "Home")#recipe"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
+                            <a href="#"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a asp-controller="Recipes" asp-action="TopRatedRecipe">Top Rated Recipes</a></li>
                                 <li><a href="#">Recipes Around The World</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto" href="@Url.Action("Index", "Home")#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
                         <li><a class="nav-link" asp-controller="Home" asp-action="Profile">Profile</a></li>
-                        
-                      
+
+
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav>
@@ -61,7 +67,7 @@
 
                 <a class="book-a-table-btn scrollto" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
             }
-            else
+            else if (!User.IsInRole("Admin"))
             {
                 <nav id="navbar" class="navbar order-last order-lg-0">
                     <ul>
@@ -69,24 +75,34 @@
 
                         <li><a class="nav-link" asp-area="" asp-controller="About" asp-action="Index">About Us</a></li>
                         <li class="dropdown">
-                            <a href="@Url.Action("Index", "Home")#recipe"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
+                            <a href="#"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a asp-controller="Recipes" asp-action="TopRatedRecipe">Top Rated Recipes</a></li>
                                 <li><a href="#">Recipes Around The World</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto" href="@Url.Action("Index", "Home")#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
 
                         <li><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Sign In</a></li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav>
-
-                <!-- .navbar -->
-
                 <a class="book-a-table-btn scrollto" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
             }
-            
+            else if (User.IsInRole("Admin"))
+            {
+                <nav id="navbar" class="navbar order-last order-lg-0">
+                    <ul>
+                        <li><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Dashboard">Pending Posts</a></li>
+                        <li><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Responses">Response Hub</a></li>
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav>
+                <a class="book-a-table-btn scrollto" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+            }
+            <!-- .navbar -->
+
+
 
 
         </div>
@@ -103,10 +119,10 @@
             <h3>After<span style="color: #ffb03b;">Taste</span></h3>
             <p>After you cook comes a wonderful taste.</p>
             <div class="social-links">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-tiktok"></i></a>
+                <a href="https://twitter.com/AfterTasterPh" target="_blank" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100068413301562&mibextid=ZbWKwL " class="facebook" target="_blank"><i class="bx bxl-facebook"></i></a>
+                <a href="https://www.instagram.com/aftertasterph/" class="instagram" target="_blank"><i class="bx bxl-instagram"></i></a>
+                <a href="@Html.Raw("https://www.tiktok.com/@aftertaster1")" class="google-plus" target="_blank"><i class="bx bxl-tiktok"></i></a>
             </div>
             <div class="copyright">
                 &copy; Copyright <strong><span>AfterTaste</span></strong>. All Rights Reserved

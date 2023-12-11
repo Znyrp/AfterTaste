@@ -1,0 +1,71 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@model IEnumerable<Recipe>
+
+<section id="recipe" class="recipe">
+    <div class="container">
+        <div class="section-title mt-5">
+            <h2> Pending <span>Posts</span></h2>
+            <p class="pb-2">
+                Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
+                atque vitae
+                autem.
+            </p>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Recipe Name</th>
+                    <th scope="col">Recipe Description</th>
+                    <th scope="col">Origin</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var Recipe in Model)
+                {
+                    <tr>
+                        <th scope="row">@Recipe.recipeId</th>
+                        <td>@Recipe.recipeName</td>
+                        <td>@Recipe.recipeDescription</td>
+                        <td>@Recipe.Origin</td>
+                        <td>
+                            @{
+                                string badgeClass = Recipe.Status switch
+                                {
+                                    RecipeStatus.Approved => "badge bg-success",
+                                    RecipeStatus.Disapproved => "badge bg-warning",
+                                    RecipeStatus.Pending => "badge bg-secondary",
+                                    _ => "badge bg-secondary" // Default to secondary if none of the cases match
+                                };
+                            }
+                            <span class="@badgeClass">@Recipe.Status</span>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="statusDropdown-@Recipe.recipeId" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Action
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="statusDropdown-@Recipe.recipeId">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="ChangeStatus" asp-route-recipeId="@Recipe.recipeId" asp-route-status="Approved">Approve Recipe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="ChangeStatus" asp-route-recipeId="@Recipe.recipeId" asp-route-status="Disapproved">Disapprove Recipe</a>
+                                    </li>
+                                    <!-- Add more options as needed -->
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/main.js" asp-append-version="true"></script>
+<script src="~/js/main.js"></script>

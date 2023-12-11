@@ -22,6 +22,48 @@
 
 <section id="profile" class="profile">
 
+	<style>
+
+		.nav-tabs .nav-link {
+			background-color: lightgrey; 
+			color: black; 
+		}
+
+			
+			.nav-tabs .nav-link.active {
+				background-color: #fcba03;
+				color: black; 
+				font-weight: bold;
+			}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		tr:nth-child(even) {
+			background-color: #eeeee4;
+		}
+
+
+		th {
+			background-color: #fcba03;
+			color: black;
+		}
+
+		tr:hover {
+			background-color: lightgoldenrodyellow;
+		}
+
+		#403c3c
+	</style>
+
 	<div class="container">
 		<div class="main-body">
 			<div class="row">
@@ -38,10 +80,10 @@
 								<div class="mt-3">
 									<h4>@_userManager.GetUserAsync(User).Result.Firstname @_userManager.GetUserAsync(User).Result.Lastname</h4>
 									<hr class="my-4">
-									<p class="text-secondary mb-1">Email : @_userManager.GetUserAsync(User).Result.Email</p>
-									<p class="text-secondary mb-1">Contact Number : @_userManager.GetUserAsync(User).Result.PhoneNumber</p>
-									<p class="text-secondary mb-1">Address : @_userManager.GetUserAsync(User).Result.Address</p>
-									<p class="text-secondary mb-1">Birthdate : @_userManager.GetUserAsync(User).Result.Birthdate</p>
+									<p class="text-secondary mb-1"><b>Email</b> : @_userManager.GetUserAsync(User).Result.Email</p>
+									<p class="text-secondary mb-1"><b>Contact Number</b> : @_userManager.GetUserAsync(User).Result.PhoneNumber</p>
+									<p class="text-secondary mb-1"><b>Address</b> : @_userManager.GetUserAsync(User).Result.Address</p>
+									<p class="text-secondary mb-1"><b>Birthdate</b> : @_userManager.GetUserAsync(User).Result.Birthdate</p>
 								</div>
 								<br />
 								<a asp-action="EditProfile" asp-controller="Account" class="book-a-table-btn scrollto my-4">Edit Info</a>
@@ -56,28 +98,132 @@
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Created Recipes</button>
 									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favourite Recipes</button>
+									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-pending" type="button" role="tab" aria-controls="nav-pending" aria-selected="false">Pending</button>
+									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-approved" type="button" role="tab" aria-controls="nav-approved" aria-selected="false">Approved</button>
+									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-disapproved" type="button" role="tab" aria-controls="nav-disapproved" aria-selected="false">Disapproved</button>
 								</div>
 							</nav>
 							<div class="tab-content" id="nav-tabContent">
 								<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-									
-									@foreach (var recipe in Model.CreatedRecipes)
-									{
-										<h3>@recipe.recipeName</h3>
-										<p>@recipe.recipeDescription</p>
-										<a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes">Show Details</a>
-									}
+
+									<table>
+
+										<tr>
+											<th>Recipe Name</th>
+											<th>Recipe Author</th>
+											<th>Recipe Origin</th>
+											<th>Show Details</th>
+										</tr>
+
+										@foreach (var recipe in Model.CreatedRecipes)
+										{
+											<tr>
+												<td>@recipe.recipeName</td>
+												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
+												<td>@recipe.Origin</td>
+												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
+											</tr>
+										}
+									</table>
 
 								</div>
 
 								<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-									@foreach (var recipe in Model.FavoriteRecipes)
-									{
-										<h3>@recipe.recipeName</h3>
-										<p>@recipe.recipeDescription</p>
-										<a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes">Show Details</a>
-									}
+									<table>
+
+										<tr>
+											<th>Recipe Name</th>
+											<th>Recipe Author</th>
+											<th>Recipe Origin</th>
+											<th>Show Details</th>
+										</tr>
+
+										@foreach (var recipe in Model.FavoriteRecipes)
+										{
+											<tr>
+												<td>@recipe.recipeName</td>
+												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
+												<td>@recipe.Origin</td>
+												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
+											</tr>
+										}
+									</table>
 								</div>
+
+								<div class="tab-pane fade" id="nav-pending" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+									<table>
+
+										<tr>
+											<th>Recipe Name</th>
+											<th>Recipe Author</th>
+											<th>Recipe Origin</th>
+											<th>Status</th>
+											<th>Show Details</th>
+										</tr>
+
+										@foreach (var recipe in Model.CreatedRecipes.Where(r => r.Status == RecipeStatus.Pending))
+										{
+											<tr>
+												<td>@recipe.recipeName</td>
+												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
+												<td>@recipe.Origin</td>
+												<td><span class="badge bg-secondary"> @recipe.Status</span></td>
+												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
+											</tr>
+										}
+									</table>
+								</div>
+								
+								<div class="tab-pane fade" id="nav-approved" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+									<table>
+
+										<tr>
+											<th>Recipe Name</th>
+											<th>Recipe Author</th>
+											<th>Recipe Origin</th>
+											<th>Status</th>
+											<th>Show Details</th>
+										</tr>
+
+
+										@foreach (var recipe in Model.CreatedRecipes.Where(r => r.Status == RecipeStatus.Approved))
+										{
+											<tr>
+												<td>@recipe.recipeName</td>
+												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
+												<td>@recipe.Origin</td>
+												<td><span class="badge bg-success">@recipe.Status</span></td>
+												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
+											</tr>
+										}
+									</table>
+								</div>
+
+								<div class="tab-pane fade" id="nav-disapproved" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+									<table>
+
+										<tr>
+											<th>Recipe Name</th>
+											<th>Recipe Author</th>
+											<th>Recipe Origin</th>
+											<th>Status</th>
+											<th>Show Details</th>
+										</tr>
+
+										@foreach (var recipe in Model.CreatedRecipes.Where(r => r.Status == RecipeStatus.Disapproved))
+										{
+											<tr>
+												<td>@recipe.recipeName</td>
+												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
+												<td>@recipe.Origin</td>
+												<td><span class="badge bg-danger">@recipe.Status</span></td>
+												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
+											</tr>
+										}
+									</table>
+								</div>
+
+
 							</div>
 						</div>
 					</div>

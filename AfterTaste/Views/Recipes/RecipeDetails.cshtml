@@ -4,7 +4,9 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-
+    var recipeUrl = Url.Action("RecipeDetails", "Recipes", new { Id = Model.recipeId });
+    var localhost = "http://localhost:5103";
+    var completeUrl = localhost + recipeUrl;
 }
 @model Recipe;
 
@@ -24,11 +26,18 @@
                        @Model.User.Firstname @Model.User.Lastname
                     </figcaption>
                 </figure>
+                <div id="messageContainer_@Model.recipeId">
+                    @if (TempData[$"Message_{Model.recipeId}"] != null)
+                    {
+                        var message = TempData[$"Message_{Model.recipeId}"].ToString();
+                        <div class="alert @((message.Contains("unfavorited")) ? "alert-danger" : "alert-success")" role="alert">@message</div>
+                    }
+                </div>
                 <div class="gap-3 d-flex justify-content-center mb-2">
                     <a href=""><span class="badge rounded-pill text-bg-warning mx-2">@Model.Origin</span></a>
-                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.8</a>
-                    <a href=""><i class="bi bi-heart mx-2"></i></a>
-                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                    <i class="bi bi-star-fill mx-2"></i>4.8
+                    <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Model.recipeId"><i class="bi bi-heart mx-2"></i></a>
+                    <a href="#" onclick="copyLink('@completeUrl')"><i class="bi bi-clipboard mx-2"></i></a>
 
                 </div>
 
@@ -79,7 +88,9 @@
                 </div>
             </div>
 
+           
             <section>
+                <h1 class="py-2">User Reviews</h1>
                 <div class="container py-3">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12 col-lg-10 col-xl-8">
@@ -92,8 +103,9 @@
                                         <div>
                                             <h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
                                             <p class="text-muted small mb-0">
-                                                Shared publicly - Aug 2019
+                                                Posted - Aug 2019
                                             </p>
+                                            <p class="text-muted small mb-0"><i class="bi bi-star-fill mx-2"></i>4.8</p>
                                         </div>
                                     </div>
 
@@ -102,37 +114,6 @@
                                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                         quis nostrud exercitation ullamco laboris nisi ut aliquip consequat.
                                     </p>
-
-                                    <div class="small d-flex justify-content-start">
-                                        <a href="#!" class="d-flex align-items-center me-3">
-                                            <i class="far fa-thumbs-up me-2"></i>
-                                            <p class="mb-0">Like</p>
-                                        </a>
-                                        <a href="#!" class="d-flex align-items-center me-3">
-                                            <i class="far fa-comment-dots me-2"></i>
-                                            <p class="mb-0">Comment</p>
-                                        </a>
-                                        <a href="#!" class="d-flex align-items-center me-3">
-                                            <i class="fas fa-share me-2"></i>
-                                            <p class="mb-0">Share</p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
-                                    <div class="d-flex flex-start w-100">
-                                        <img class="rounded-circle shadow-1-strong me-3"
-                                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="40"
-                                             height="40" />
-                                        <div class="form-outline w-100">
-                                            <textarea class="form-control" id="textAreaExample" rows="4"
-                                                      style="background: #fff;"></textarea>
-                                            <label class="form-label" for="textAreaExample">Message</label>
-                                        </div>
-                                    </div>
-                                    <div class="float-end mt-2 pt-1">
-                                        <button type="button" class="btn btn-primary btn-sm">Post comment</button>
-                                        <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -144,3 +125,30 @@
     </section><!-- Top Recipe Section -->
 
 </main><!-- End #main -->
+@section Scripts {
+    <script>
+        // Remove message after a delay
+        setTimeout(function () {
+            var messageContainer = document.getElementById(`messageContainer_@Model.recipeId`);
+            if (messageContainer) {
+                messageContainer.parentNode.removeChild(messageContainer);
+            }
+        }, 2000); 
+    </script>
+
+    <script>
+        function copyLink(recipeUrl) {
+            // Use the Clipboard API to copy the recipe URL to the clipboard
+            navigator.clipboard.writeText(recipeUrl)
+                .then(function () {
+                    // On success, you can provide feedback to the user
+                    alert('Recipe link copied to clipboard');
+                })
+                .catch(function (error) {
+                    // Handle any errors that might occur during copying
+                    console.error('Failed to copy: ', error);
+                    alert('Failed to copy recipe link to clipboard');
+                });
+        }
+    </script>
+}

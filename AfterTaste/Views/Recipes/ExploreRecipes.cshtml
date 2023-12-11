@@ -11,26 +11,20 @@
     <!-- ======= Recipe Section ======= -->
     <section id="recipe" class="recipe">
 
-            <div class="container">
+        <div class="container">
 
-                <div class="section-title mt-5">
-                    <h2> Top Rated <span>Recipes</span></h2>
-                    <p class="pb-2">
-                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
-                        atque vitae
-                        autem.
-                    </p>
-                    <a asp-action="AddRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Share A Recipe</a>
+            <div class="section-title mt-5">
+                <h2> Explore <span>Recipes</span></h2>
+                <p class="pb-2">
+                    Explore! Taste! Travel the world through your tastebuds!
+                </p></br>
+                <a asp-action="AddRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Share A Recipe</a>
 
-                </div>
+            </div></br>
 
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 @foreach (var Recipe in Model.Where(r => r.Status == RecipeStatus.Approved))
                 {
-                    var recipeUrl = Url.Action("RecipeDetails", "Recipes", new { Id = Recipe.recipeId });
-                    var localhost = "http://localhost:5103";
-                    var completeUrl = localhost + recipeUrl;
-
                     <div class="col">
                         <div class="card">
                             <a asp-action="RecipeDetails" asp-route-Id="@Recipe.recipeId">
@@ -39,7 +33,8 @@
                                     <div>
                                         <img src="data:image;base64,@Convert.ToBase64String(Recipe.recipeImage)" alt="Recipe Image" class="card-img-top">
                                     </div>
-                                }else
+                                }
+                                else
                                 {
                                     <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="Recipe Image" class="card-img-top">
                                 }
@@ -57,9 +52,9 @@
                             </div>
                             <div class="social d-flex justify-content-center mb-2 gap-4">
                                 <h4 style="font-family:Bahnschrift">
-                                    <a href=""><i class="bi bi-star-fill mx-2"></i>5</a>
+                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
                                     <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Recipe.recipeId"><i class="bi bi-heart mx-2"></i></a>
-                                    <a href="#" onclick="copyLink('@completeUrl')"><i class="bi bi-clipboard mx-2"></i></a>
+                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
                                 </h4>
                             </div>
                             @if (User.Identity.IsAuthenticated && Recipe.userId == User.FindFirstValue(ClaimTypes.NameIdentifier))
@@ -74,11 +69,11 @@
                         </div>
                     </div>
                 }
-                
-            </div>
-           </div>
 
-    </section><!-- Top Recipe Section -->
+            </div>
+        </div>
+
+    </section><!-- Explore Section -->
 
 
 
@@ -87,14 +82,14 @@
 </main><!-- End #main -->
 @section Scripts {
     <script>
-        // Remove message 
+        // Remove message
         function removeMessage(recipeId) {
             setTimeout(function () {
                 var messageContainer = document.getElementById(`messageContainer_${recipeId}`);
                 if (messageContainer) {
                     messageContainer.parentNode.removeChild(messageContainer);
                 }
-            }, 2000); 
+            }, 2000);
         }
 
         @foreach (var Recipe in Model)
@@ -103,21 +98,4 @@
             <text>removeMessage(@recipeId); </text>
         }
     </script>
-
-    <script>
-        function copyLink(recipeUrl) {
-            // Use the Clipboard API to copy the recipe URL to the clipboard
-            navigator.clipboard.writeText(recipeUrl)
-                .then(function () {
-                    // On success, you can provide feedback to the user
-                    alert('Recipe link copied to clipboard');
-                })
-                .catch(function (error) {
-                    // Handle any errors that might occur during copying
-                    console.error('Failed to copy: ', error);
-                    alert('Failed to copy recipe link to clipboard');
-                });
-        }
-    </script>
 }
-

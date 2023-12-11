@@ -1,4 +1,5 @@
-﻿<body>
+﻿@model AfterTaste.Models.ContactUs
+<body>
     <!-- ======= Hero Section ======= -->
     <section id="hero">
         <div class="hero-container">
@@ -90,18 +91,16 @@
 
     <main id="main">
 
-        <!-- ======= Top Recipe Section ======= -->
+        <!-- ======= Explore Recipe Section ======= -->
         <section id="recipe" class="recipe">
             <div class="container">
 
                 <div class="section-title">
-                    <h2> Top Rated <span>Recipes</span></h2>
+                    <h2> Explore <span>Recipes</span></h2>
                     <p class="pb-2">
-                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
-                        atque vitae
-                        autem.
+                        Discover and widen your knowledge by exploring different from different origins from around the world.
                     </p>
-                    <a asp-action="TopRatedRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Show More</a>
+                    <a asp-action="ExploreRecipes" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Show More</a>
 
                 </div>
 
@@ -178,64 +177,85 @@
                 </div>
 
             </div>
-        </section><!-- Top Recipe Section -->
-        
-        <!-- =======Recipes Around the World Section ======= -->
+        </section><!-- Explore Recipes Section -->
+        <!-- =======Top Recipes Section ======= -->
         <section id="recipe" class="recipe">
             <div class="container">
 
                 <div class="section-title">
-                    <h2> Recipes <span>Around the World</span></h2>
+                    <h2> Top Rated <span>Recipes</span></h2>
                     <p class="pb-2">
-                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
-                        atque vitae
-                        autem.
+                        Can't pick which recipe to try out? Go to our Top Rated Recipes page and see which ones are most loved by your fellow AfterTasters!
                     </p>
-                    <a href="#book-a-table" class="book-a-table-btn scrollto my-4">Show More</a>
+                    <a asp-action="TopRatedRecipe" asp-controller="Recipes" class="book-a-table-btn scrollto my-4">Show More</a>
                 </div>
 
                 <div class="row">
 
                     <div class="col-lg-3 col-md-6">
                         <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/philippines.jpg" class="img-fluid" alt=""></div>
+                            <a asp-area="" asp-controller="Recipes" asp-action="Adobo">
+                                <div class="pic"><img src="/img/recipe/adobo.jpg" class="img-fluid" alt=""></div>
                             </a>
                             <div class="member-info">
-                                <h2>Philippines</h2>
+                                <h4>Adobong Manok</h4>
+                                <span>Philippines</span>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
+                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/korea.jpg" class="img-fluid" alt=""></div>
+                            <a asp-area="" asp-controller="Recipes" asp-action="KoreanFriedChicken">
+                                <div class="pic"><img src="/img/recipe/sticky.jpg" class="img-fluid" alt=""></div>
                             </a>
                             <div class="member-info">
-                                <h2>South Korea</h2>
+                                <h4>Korean Sticky Chicken</h4>
+                                <span>South Korea</span>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
+                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/india.jpg" class="img-fluid" alt=""></div>
+                            <a asp-area="" asp-controller="Recipes" asp-action="IndianStew">
+                                <div class="pic"><img src="/img/recipe/stew.jpg" class="img-fluid" alt=""></div>
                             </a>
                             <div class="member-info">
-                                <h2>India</h2>
+                                <h4>Indian Vegetable Stew</h4>
+                                <span>India</span>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.8</a>
+                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
                         <div class="member">
-                            <a href="#">
-                                <div class="pic"><img src="/img/recipe/italy.jpg" class="img-fluid" alt=""></div>
+                            <a asp-area="" asp-controller="Recipes" asp-action="ItalianMeatballs">
+                                <div class="pic"><img src="/img/recipe/meatballs.jpg" class="img-fluid" alt=""></div>
                             </a>
                             <div class="member-info">
-                                <h2>Italy</h2>
+                                <h4>Italian Meatballs</h4>
+                                <span>Italy</span>
+                                <div class="social">
+                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>4.7</a>
+                                    <a href=""><i class="bi bi-heart mx-2"></i></a>
+                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -243,7 +263,8 @@
                 </div>
 
             </div>
-        </section><!-- Recipes Around the World Section -->
+        </section><!-- Top Rated Recipes Section -->
+
         <!-- ======= Testimonials Section ======= -->
         <section id="testimonials" class="testimonials">
             <div class="container position-relative">
@@ -252,89 +273,93 @@
                     <div class="swiper-wrapper">
 
                         <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                                <h3>Saul Goodman</h3>
-                                <h4>Ceo &amp; Founder</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <div class="testimonial-item">
+                                        <img src="/img/members/Evander.jpg" class="testimonial-img" alt="">
+                                        <h3>Evander Villanueva</h3>
+                                        <h4>Ceo &amp; Founder</h4>
+                                        <div class="stars">
+                                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            Everyone's A Foodie!
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                    </div>
                                 </div>
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium
-                                    quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
+
+                                <div class="form-group col">
+                                    <div class="testimonial-item">
+                                        <img src="/img/members/Andrea.jpg" class="testimonial-img" alt="">
+                                        <h3>
+                                            Andrea Bandianon
+                                        </h3>
+                                        <h4>Ceo &amp; Founder</h4>
+                                        <div class="stars">
+                                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            Make it and savor the after taste.
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <div class="testimonial-item">
+                                        <img src="/img/members/Luis.jpg" class="testimonial-img" alt="">
+                                        <h3>Luis Granada</h3>
+                                        <h4>Ceo &amp; Founder</h4>
+                                        <div class="stars">
+                                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            Taste the world through your kitchen!
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col">
+                                    <div class="testimonial-item">
+                                        <img src="/img/members/Mark.jpg" class="testimonial-img" alt="">
+                                        <h3>Mark Alicante</h3>
+                                        <h4>Ceo &amp; Founder</h4>
+                                        <div class="stars">
+                                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            Discover the wonders of recipes.
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <div class="testimonial-item">
+                                        <img src="/img/members/Alyssa.jpg" class="testimonial-img" alt="">
+                                        <h3>Alyssa Romen</h3>
+                                        <h4>Ceo &amp; Founder</h4>
+                                        <div class="stars">
+                                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p>
+                                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                            Find Delight through your cooking.
+                                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+
+
                             </div>
+
                         </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                                <h3>Sara Wilsson</h3>
-                                <h4>Designer</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis
-                                    quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                                <h3>Jena Karlis</h3>
-                                <h4>Store Owner</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim
-                                    tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                                <h3>Matt Brandon</h3>
-                                <h4>Freelancer</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit
-                                    minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                                <h3>John Larson</h3>
-                                <h4>Entrepreneur</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                    Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa
-                                    labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
 
                     </div>
                     <div class="swiper-pagination"></div>
@@ -349,8 +374,7 @@
                 <div class="section-title">
                     <h2><span>Contact</span> Us</h2>
                     <p>
-                        Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque vitae
-                        autem.
+                        Got any questions? Want to become a part of the AfterTaster team? Feel Free to send us a message and we would get back to you!
                     </p>
                 </div>
             </div>
@@ -385,34 +409,34 @@
                     </div>
                 </div>
 
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                <form method="post" class="php-email-form" asp-controller="Home" asp-action="AddContact">
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                            <label asp-for="fullName">Your Name</label>
+                            <input class="form-control" asp-for="fullName">
                         </div>
                         <div class="col-md-6 form-group mt-3 mt-md-0">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                            <label asp-for="email">Your Email</label>
+                            <input class="form-control" asp-for="email">
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                        <label asp-for="subject">Subject</label>
+                        <input class="form-control" asp-for="subject">
                     </div>
                     <div class="form-group mt-3">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                        <label asp-for="message">Message</label>
+                        <input class="form-control" asp-for="message">
                     </div>
-                    <div class="my-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                    </div>
-                    <div class="text-center"><button type="submit">Send Message</button></div>
+                    <br />
+                    <div class="text-center"><button type="submit" class="sign-up-button" p><center>Submit</center></button></div>
                 </form>
 
             </div>
         </section><!-- End Contact Section -->
 
     </main><!-- End #main -->
-    
+
 
 </body>
 
