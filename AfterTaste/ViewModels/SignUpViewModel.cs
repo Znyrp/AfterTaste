@@ -41,6 +41,7 @@ namespace AfterTaste.ViewModels
 
         [Display(Name = "Contact Number")]
         [Required(ErrorMessage = "Contact Number is required")]
+        [RegularExpression("[0-9]{4}-[0-9]{3}-[0-9]{4}", ErrorMessage = "Please follow Phone Number format 09**-***-****!")]
         public string? contactNumber { get; set; }
         public DateTime? birthdate { get; set; }
 

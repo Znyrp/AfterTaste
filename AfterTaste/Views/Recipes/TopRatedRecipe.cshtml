@@ -23,6 +23,7 @@
                 </div>
 
             <div class="row row-cols-1 row-cols-md-3 g-4">
+                
                 @foreach (var Recipe in Model.Where(r => r.Status == RecipeStatus.Approved))
                 {
                     var recipeUrl = Url.Action("RecipeDetails", "Recipes", new { Id = Recipe.recipeId });

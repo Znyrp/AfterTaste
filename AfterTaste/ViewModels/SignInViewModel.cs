@@ -6,11 +6,11 @@ namespace AfterTaste.ViewModels
     {
         
         [Display(Name = "Username")]
-        [Required(ErrorMessage = " a username is required")]
+        [Required(ErrorMessage = "Username is required")]
         public string? UserName { get; set; }
 
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = " a password is required")]
+        [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
 
         [Display(Name = "Remember me?")]

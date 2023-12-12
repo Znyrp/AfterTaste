@@ -15,7 +15,6 @@
     <section id="recipe" class="recipe">
       <div class="sign-up-container">
         <div class="container">
-                    <div asp-validation-summary="All" class="text-danger"></div>
                     @if (TempData["SuccessMessage"] != null)
                     {
                         <div class="alert alert-success" role="alert">
@@ -26,42 +25,49 @@
           <h4 class="h2-sign lead" style="color:black; font-family:Bahnschrift">
             Explore your taste buds and be an AfterTaster
           </h4>
-    
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating mb-3 col-md">
                     <input asp-for="username" class="form-control" placeholder="">
                     <label asp-for="username"></label>
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger"})
                 </div>
 
             <div class="row g-2 mb-3">
                 <div class="form-floating col-md">
                     <input asp-for="userPassword" class="form-control" placeholder="">
                     <label asp-for="userPassword"></label>
+                    @Html.ValidationMessageFor(model => model.userPassword, "", new { @class = "text-danger"})
                 </div>
 
                 <div class="form-floating col-md">
                     <input asp-for="ConfirmPassword" class="form-control" placeholder="">
                     <label asp-for="ConfirmPassword"></label>
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger"})
                 </div>
             </div>
             <div class="row g-2 mb-3">
                 <div class="form-floating col-md">
                     <input asp-for="firstName" class="form-control" placeholder="">
                     <label asp-for="firstName"></label>
+                    @Html.ValidationMessageFor(model => model.firstName, "", new { @class = "text-danger"})
                 </div>
                 <div class="form-floating col-md">
                     <input asp-for="lastName" class="form-control" placeholder="">
                     <label asp-for="lastName"></label>
+                    @Html.ValidationMessageFor(model => model.lastName, "", new { @class = "text-danger"})
                 </div>
             </div>
 
                 <div class="form-floating mb-3 col-md">
                      <input asp-for="email" class="form-control" placeholder="">
                      <label asp-for="email"></label>
+                     @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger"})
                  </div>
 
                  <div class="form-floating mb-3 col-md">
                      <input asp-for="address" class="form-control" placeholder="">
                      <label asp-for="address"></label>
+                     @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger"})
                  </div>
 
             <div class="row g-2 mb-3">
@@ -72,12 +78,14 @@
                 <div class="form-floating col-md">
                     <input asp-for="contactNumber" class="form-control" placeholder="">
                     <label asp-for="contactNumber"></label>
+                    @Html.ValidationMessageFor(model => model.contactNumber, "", new { @class = "text-danger"})
                 </div>
             </div>
 
                 <div class="form-floating mb-3 col-md">
                     <input asp-for="profilePicture" class="form-control" placeholder="" type="file" accept=".png,.jpg,.jpeg">
                     <label asp-for="profilePicture"></label>
+                    @Html.ValidationMessageFor(model => model.profilePicture, "", new { @class = "text-danger"})
                 </div>
 
             <div class="text-center">

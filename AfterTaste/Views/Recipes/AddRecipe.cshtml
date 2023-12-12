@@ -12,17 +12,18 @@
         <div class="add-recipe-container">
             <div class="container">
                 <h1 class="display-6">Share A New Recipe</h1>
-                <div asp-validation-summary="All" class="text-danger"></div>
                 <form asp-action="AddRecipe" asp-controller="Recipes" method="post" enctype="multipart/form-data">
-
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group col-md-12">
                         <label asp-for="recipeName">Recipe Name</label>
                         <input class="form-control" asp-for="recipeName">
+                        @Html.ValidationMessageFor(model => model.recipeName, "", new { @class = "text-danger"})
                     </div>
                     <br />
                     <div class="form-group col-md-12">
                         <label asp-for="recipeDescription">Recipe Description</label>
                         <input class="form-control" asp-for="recipeDescription">
+                        @Html.ValidationMessageFor(model => model.recipeDescription, "", new { @class = "text-danger"})
                     </div>
 
                     <br />
@@ -42,23 +43,27 @@
                     <div class="form-group col-md-12">
                         <label asp-for="recipeIngredients">Recipe Ingredients</label>
                         <textarea class="form-control" asp-for="recipeIngredients" rows="4" cols="50">
+                            @Html.ValidationMessageFor(model => model.recipeIngredients, "", new { @class = "text-danger"})
 
                     </textarea>
                     </div><br />
                     <div class="form-group col-md-12">
                         <label asp-for="recipeDirections">Recipe Directions</label>
                         <textarea class="form-control" asp-for="recipeDirections" rows="4" cols="50">
+                            @Html.ValidationMessageFor(model => model.recipeDescription, "", new { @class = "text-danger"})
 
                     </textarea>
                     </div><br />
                     <div class="form-group col-md-12">
                         <label asp-for="recipeCalories">Recipe Calories</label>
                         <input class="form-control" asp-for="recipeCalories">
+                        @Html.ValidationMessageFor(model => model.recipeCalories, "", new { @class = "text-danger"})
                     </div><br />
 
                     <div class="form-group col-md-12">
                         <label asp-for="recipeImage">Recipe Image</label>
                         <input type="file" class="form-control" asp-for="recipeImage" accept=".jpg,.png,.jpeg">
+                        @Html.ValidationMessageFor(model => model.recipeImage, "", new { @class = "text-danger"})
                     </div><br />
 
                     <button type="submit" class="sign-up-button">Submit</button>

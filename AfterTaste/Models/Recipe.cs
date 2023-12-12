@@ -22,13 +22,26 @@ namespace AfterTaste.Models
         [ForeignKey("userId")]
         public string? userId { get; set; }
         public User? User { get; set; }
+        [Required(ErrorMessage = "Please Input a recipe name")]
         public string? recipeName { get; set; }
+
+        [Required(ErrorMessage = "Recipe Description is required")]
         public string? recipeDescription { get; set; }
         public string? recipeVideo { get; set; }
+
+        [DataType(DataType.Upload)]
+        [RegularExpression(@"^.*\.(jpg|jpeg|png)$", ErrorMessage = "Only JPG, JPEG, and PNG files are allowed.")]
         public byte[]? recipeImage { get; set; }
+
+        [Required(ErrorMessage = "Please input recipe directions")]
         public string? recipeDirections { get; set; }
+
+        [Required(ErrorMessage = "Please input recipe ingredients")]
         public string? recipeIngredients { get; set; }
+
         public Origin Origin { get; set; }
+
+        [Required(ErrorMessage = "Please input recipe calories")]
         public int? recipeCalories { get; set; }
         public RecipeStatus Status { get; set; }
         public ICollection<UserReview>? Reviews { get; set; }

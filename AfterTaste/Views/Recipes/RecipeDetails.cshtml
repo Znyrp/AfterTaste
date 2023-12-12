@@ -14,8 +14,9 @@
 
     <!-- ======= Recipe Section ======= -->
     <section id="recipe" class="recipe">
-        <div class="container">
 
+   
+        <div class="container">
             <div class="section-title py-5">
                 <h2>@Model.recipeName</h2>
                 <figure>
@@ -51,20 +52,19 @@
                 </div>
 
             </div>
-
+            <hr class="my-4">
             <div class="container py-3">
-                <div class="row">
-                    <h1>How to Cook?</h1>
-                    <div class="col-lg-12 py-2">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8 py-2">
+                        <center></><h1>How to Cook?</h1></center>
                         <div class="ratio ratio-21x9">
                             <iframe width="560" height="315" src="@Model.recipeVideo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                         </div>
                     </div>
-
-                    <h1 class="py-2">Ingredients Needed</h1>
-                    <div class="row">
-                        <div class="col-lg-12 py-2">
-                            <ol class="list-group list-group-numbered">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-8 py-2">
+                            <h2 class="py-2">Ingredients Needed</h2>
+                            <ol class="list-group list-group-flush list-group-numbered">
                                 @foreach (var ingredients in Model.recipeIngredients.Split('\n'))
                                 {
                                     <li class="list-group-item">@ingredients</li>
@@ -72,11 +72,10 @@
                             </ol>
                         </div>
                     </div>
-
-                    <h1 class="py-2">Directions</h1>
-                    <div class="row">
-                        <div class="col-lg-12 py-2">
-                            <ol class="list-group list-group-numbered">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-8 py-2">
+                            <h2 class="py-2">Directions</h2>
+                            <ol class="list-group list-group-flush list-group-numbered">
                                 @foreach (var direction in Model.recipeDirections.Split('\n'))
                                 {
                                     <li class="list-group-item">@direction</li>
@@ -85,33 +84,41 @@
                         </div>
                     </div>
 
-                    <h1 class="py-2">Calories</h1>
-                    <div class="row">
-                        <div class="col-lg-12 py-2">
-                            <ol class="list-group">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-8 py-2">
+                            <h2 class="py-2">Calories</h2>
+                            <ol class="list-group list-group-flush">
                                 <li class="list-group-item">@Model.recipeCalories</li>
                             </ol>
                         </div>
                     </div>
-
                 </div>
             </div>
-
-           
+          
             <section>
-                <h1 class="py-2">User Reviews</h1>
-                @if (User.Identity.IsAuthenticated && (!User.IsInRole("Admin")))
-                {
-                    <button class="btn btn-success" onclick="location.href='@Url.Action("AddReview", "Recipes", new { recipeId = Model.recipeId })'">
-                        Add a Review
-                    </button>
-                }
+                <hr class="my-4">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8 py-2">
+                        <h1 class="py-2">User Reviews</h1>
+                        @if (User.Identity.IsAuthenticated && (!User.IsInRole("Admin")))
+                        {
+                            
+                            <button class="btn btn-success" onclick="location.href='@Url.Action("AddReview", "Recipes", new { recipeId = Model.recipeId })'">
+                                Add a Review
+                            </button>
 
+                            <br />
+
+                            <br />
+                        }
+                    </div>
+                </div>
+               
                 @foreach (var review in ViewBag.Reviews)
                 {
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12 col-lg-10 col-xl-8">
-                            <!-- Display each review --> i
+                            <!-- Display each review -->
                             <div class="card">
                                 <div class="card-body">
                                     <div class="d-flex flex-start align-items-center">

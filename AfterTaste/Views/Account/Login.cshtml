@@ -15,23 +15,25 @@
     <section id="recipe" class="recipe">
       <div class="sign-up-container">
         <div class="container">
-          <div asp-validation-summary="All" class="text-danger"></div>
+          
           <h1 style="font-family:Bahnschrift ; text-align:center">Sign In</h1>
           <h4 class="h2-sign lead" style="color:black; font-family:Bahnschrift">
             Explore your taste buds and be an AfterTaster
           </h4>
-          
 
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <!-- Email input -->
             <div class="form-floating mb-4">
               <input asp-for="UserName" class="form-control" placeholder="" />
               <label asp-for="UserName"></label>
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger"})
             </div>
 
             <!-- Password input -->
             <div class="form-floating mb-4">
                 <input asp-for="Password" class="form-control" placeholder=""/>
                 <label asp-for="Password"></label>
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger"})
             </div>
 
            
