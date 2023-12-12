@@ -57,7 +57,7 @@
                             </div>
                             <div class="social d-flex justify-content-center mb-2 gap-4">
                                 <h4 style="font-family:Bahnschrift">
-                                    <a href=""><i class="bi bi-star-fill mx-2"></i>5</a>
+                                    <a href=""><i class="bi bi-star-fill mx-2"></i>@String.Format("{0:0.0}", Recipe.AverageRating)</a>
                                     <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Recipe.recipeId"><i class="bi bi-heart mx-2"></i></a>
                                     <a href="#" onclick="copyLink('@completeUrl')"><i class="bi bi-clipboard mx-2"></i></a>
                                 </h4>

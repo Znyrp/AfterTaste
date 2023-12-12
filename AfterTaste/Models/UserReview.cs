@@ -19,5 +19,6 @@ namespace AfterTaste.Models
         public string? comment { get; set; }
         public int RecipeId { get; set; }
         public Recipe? Recipe { get; set; }
+
     }
 }

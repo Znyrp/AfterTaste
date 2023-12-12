@@ -98,18 +98,22 @@ namespace AfterTaste.Controllers
             }
 
             newRecipe.Status = RecipeStatus.Pending;
+            newRecipe.AverageRating = 0; // Set a default value for the average rating
 
             // Set the UserId of the new recipe
             newRecipe.userId = userId;
 
-            //Convert youtube link to youtube embeddable link
+            // Convert youtube link to youtube embeddable link
             newRecipe.recipeVideo = ConvertToEmbedUrl(newRecipe.recipeVideo);
 
-
+            // Add the new recipe to the context
             _dbData.Recipes.Add(newRecipe);
-            _dbData.SaveChanges();
+
+            // Save changes to the database
+            await _dbData.SaveChangesAsync();
             return RedirectToAction("TopRatedRecipe");
         }
+
 
         [HttpGet]
         public IActionResult UpdateRecipe(int id)
@@ -304,6 +308,15 @@ namespace AfterTaste.Controllers
                 _dbData.UserReviews.Add(userReview);
                 await _dbData.SaveChangesAsync();
 
+                // Recalculate AverageRating for the associated recipe and update it
+                var recipe = await _dbData.Recipes.Include(r => r.Reviews).FirstOrDefaultAsync(r => r.recipeId == reviewModel.RecipeId);
+                if (recipe != null)
+                {
+                    recipe.AverageRating = recipe.Reviews.Any() ? recipe.Reviews.Average(r => r.Rating) : 0;
+                    await _dbData.SaveChangesAsync();
+                }
+
+
                 return RedirectToAction("RecipeDetails", new { id = reviewModel.RecipeId });
             }
             catch (Exception ex)
@@ -313,6 +326,138 @@ namespace AfterTaste.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EditReview(int reviewId)
+        {
+            // Fetch the review to be edited based on its ID
+            var reviewToEdit = await _dbData.UserReviews.FindAsync(reviewId);
+
+            if (reviewToEdit != null)
+            {
+                // Ensure that the user editing the review is the review's owner
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId != reviewToEdit.userId)
+                {
+                    // Unauthorized access: user is not the owner of the review
+                    return Forbid();
+                }
+
+                return View(reviewToEdit);
+            }
+
+            return NotFound();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditReview(UserReview updatedReview)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updatedReview);
+            }
+
+            // Fetch the existing review from the database
+            var existingReview = await _dbData.UserReviews.FindAsync(updatedReview.reviewId);
+
+            if (existingReview == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure that the user editing the review is the review's owner
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != existingReview.userId)
+            {
+                // Unauthorized access: user is not the owner of the review
+                return Forbid();
+            }
+
+            try
+            {
+                // Update the fields of the existing review
+                existingReview.Rating = updatedReview.Rating;
+                existingReview.comment = updatedReview.comment;
+
+                _dbData.Entry(existingReview).State = EntityState.Modified;
+                await _dbData.SaveChangesAsync();
+
+                // Update the associated recipe's average rating
+                var recipe = await _dbData.Recipes.Include(r => r.Reviews).FirstOrDefaultAsync(r => r.recipeId == existingReview.RecipeId);
+                if (recipe != null)
+                {
+                    recipe.AverageRating = recipe.Reviews.Any() ? recipe.Reviews.Average(r => r.Rating) : 0;
+                    await _dbData.SaveChangesAsync();
+                }
+
+                return RedirectToAction("RecipeDetails", new { id = existingReview.RecipeId });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or provide an error message
+                return RedirectToAction("RecipeDetails", new { id = existingReview.RecipeId });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteReview(int reviewId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Fetch the review from the database
+            var reviewToDelete = await _dbData.UserReviews.FindAsync(reviewId);
+
+            if (reviewToDelete == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure that the user deleting the review is the review's owner or an admin
+            if (userId != reviewToDelete.userId && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
+            return View(reviewToDelete);
+        }
+
+        [HttpPost]
+        [ActionName("DeleteReview")]
+        public async Task<IActionResult> DeleteReviewConfirmed(int reviewId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var reviewToDelete = await _dbData.UserReviews.FindAsync(reviewId);
+
+            if (reviewToDelete == null)
+            {
+                return NotFound();
+            }
+
+            if (userId != reviewToDelete.userId && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+
+            var recipeId = reviewToDelete.RecipeId; // Store the RecipeId before deleting the review
+
+            _dbData.UserReviews.Remove(reviewToDelete);
+            await _dbData.SaveChangesAsync();
+
+            // Recalculate AverageRating for the associated recipe and update it
+            var recipe = await _dbData.Recipes
+                .Include(r => r.Reviews)
+                .FirstOrDefaultAsync(r => r.recipeId == recipeId);
+
+            if (recipe != null)
+            {
+                recipe.AverageRating = recipe.Reviews.Any() ? recipe.Reviews.Average(r => r.Rating) : 0;
+                await _dbData.SaveChangesAsync();
+            }
+
+            return RedirectToAction("RecipeDetails", new { id = recipeId });
+        }
 
 
 
