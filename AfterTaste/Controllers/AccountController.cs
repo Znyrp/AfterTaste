@@ -180,7 +180,7 @@ namespace AfterTaste.Controllers
                     {
                         TempData["SuccessMessage"] = "Account Updated Successfully!";
 
-                        return RedirectToAction("EditProfile", "Account"); // Redirect to the Sign In page after sign-out
+                        return RedirectToAction("EditProfile", "Account"); 
 					}
                     else
                     {

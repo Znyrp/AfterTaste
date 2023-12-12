@@ -51,11 +51,11 @@
                         <li class="dropdown">
                             <a href="#"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
+                                <li><a asp-controller="Recipes" asp-action="ExploreRecipes">Explore Recipes</a></li>
                                 <li><a asp-controller="Recipes" asp-action="TopRatedRecipe">Top Rated Recipes</a></li>
-                                <li><a href="#">Recipes Around The World</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto" href="@Url.Action("Index", "Home")#contact">Contact</a></li>
                         <li><a class="nav-link" asp-controller="Home" asp-action="Profile">Profile</a></li>
 
 
@@ -75,13 +75,13 @@
 
                         <li><a class="nav-link" asp-area="" asp-controller="About" asp-action="Index">About Us</a></li>
                         <li class="dropdown">
-                            <a href="#"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
+                            <a href="@Url.Action("Index", "Home")#recipe"><span>Recipes</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
+                                <li><a asp-controller="Recipes" asp-action="ExploreRecipes">Explore Recipes</a></li>
                                 <li><a asp-controller="Recipes" asp-action="TopRatedRecipe">Top Rated Recipes</a></li>
-                                <li><a href="#">Recipes Around The World</a></li>
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto" href="@Url.Action("Index", "Home")#contact">Contact</a></li>
 
                         <li><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Sign In</a></li>
                     </ul>

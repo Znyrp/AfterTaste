@@ -409,15 +409,15 @@
                     </div>
                 </div>
 
-                <form method="post" class="php-email-form" asp-controller="Home" asp-action="AddContact">
+                <form method="post" class="info-wrap" asp-controller="Home" asp-action="AddContact">
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label asp-for="fullName">Your Name</label>
-                            <input class="form-control" asp-for="fullName">
+                            <label asp-for="fullName" hidden>Your Name</label>
+                            <input class="form-control" asp-for="fullName" value="-" hidden>
                         </div>
                         <div class="col-md-6 form-group mt-3 mt-md-0">
-                            <label asp-for="email">Your Email</label>
-                            <input class="form-control" asp-for="email">
+                            <label asp-for="email" hidden>Your Email</label>
+                            <input class="form-control" asp-for="email" value="-" hidden>
                         </div>
                     </div>
                     <div class="form-group mt-3">
@@ -426,7 +426,7 @@
                     </div>
                     <div class="form-group mt-3">
                         <label asp-for="message">Message</label>
-                        <input class="form-control" asp-for="message">
+                        <textarea class="form-control" asp-for="message" rows="4" cols="50"></textarea>
                     </div>
                     <br />
                     <div class="text-center"><button type="submit" class="sign-up-button" p><center>Submit</center></button></div>

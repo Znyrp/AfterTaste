@@ -47,18 +47,26 @@ namespace AfterTaste.Controllers
         public async Task<IActionResult> RecipeDetails(int id)
         {
             //Search for the recipe whose id matches the given id
-            Recipe? recipe = _dbData.Recipes.Include(r => r.User).FirstOrDefault(ins => ins.recipeId == id);
+            Recipe? recipe = await _dbData.Recipes
+                .Include(r => r.User) // Include the User navigation property in the Recipe
+                .FirstOrDefaultAsync(ins => ins.recipeId == id);
 
             if (recipe != null)
             {
-                // Retrieve the user associated with the userId in the recipe
-                var user = await _userManager.FindByIdAsync(recipe.userId);
+                var reviews = await _dbData.UserReviews
+                    .Include(r => r.User) // Include the User navigation property in UserReview
+                    .Where(r => r.RecipeId == id)
+                    .ToListAsync();
 
-                if (user != null)
-                {
-                    // Assign the user's first and last name to the recipe model
-                    recipe.User = user;
-                }
+                var userIds = reviews.Select(r => r.userId).Distinct().ToList();
+
+                // Fetch user details for all unique user IDs from reviews
+                var users = await _dbData.Users
+                    .Where(u => userIds.Contains(u.Id))
+                    .ToListAsync();
+
+                ViewBag.Reviews = reviews;
+                ViewBag.Users = users;
 
                 return View(recipe);
             }
@@ -250,6 +258,61 @@ namespace AfterTaste.Controllers
                 return RedirectToAction("TopRatedRecipe");
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddReview(int recipeId)
+        {
+            // Validate the recipeId here before proceeding
+            var reviewModel = new UserReview { RecipeId = recipeId };
+            return View(reviewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddReview(UserReview reviewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(reviewModel);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Check if the user has already reviewed this recipe
+            var existingReview = await _dbData.UserReviews
+                .FirstOrDefaultAsync(r => r.RecipeId == reviewModel.RecipeId && r.userId == userId);
+
+            if (existingReview != null)
+            {
+                // User has already reviewed this recipe, handle accordingly (e.g., show error message)
+                ModelState.AddModelError("", "You have already reviewed this recipe.");
+                return View(reviewModel);
+            }
+
+            try
+            {
+                var userReview = new UserReview
+                {
+                    userId = userId,
+                    Rating = reviewModel.Rating,
+                    ReviewDate = DateTime.Now,
+                    RecipeId = reviewModel.RecipeId,
+                    comment = reviewModel.comment
+                };
+
+                _dbData.UserReviews.Add(userReview);
+                await _dbData.SaveChangesAsync();
+
+                return RedirectToAction("RecipeDetails", new { id = reviewModel.RecipeId });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or provide an error message
+                return RedirectToAction("RecipeDetails", new { id = reviewModel.RecipeId });
+            }
+        }
+
 
 
 

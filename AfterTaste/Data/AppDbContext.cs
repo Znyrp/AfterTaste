@@ -10,6 +10,8 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<FavoriteRecipe> Favorites { get; set; }
 	public DbSet<ContactUs> ContactUs { get; set; }
 
+	public DbSet<UserReview> UserReviews { get; set; }
+
 
 	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     //Data Seeding
@@ -21,7 +23,9 @@ public class AppDbContext : IdentityDbContext<User>
 
         modelBuilder.Entity<FavoriteRecipe>();
 
-		modelBuilder.Entity<ContactUs>().HasData(
+        modelBuilder.Entity<UserReview>();
+
+        modelBuilder.Entity<ContactUs>().HasData(
 			new ContactUs()
 			{
 				contactId = 1,

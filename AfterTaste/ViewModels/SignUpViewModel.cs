@@ -34,6 +34,7 @@ namespace AfterTaste.ViewModels
         public string? lastName { get; set; }
 
         [Display(Name = "Profile Picture")]
+      
         [DataType(DataType.Upload)]
         [RegularExpression(@"^.*\.(jpg|jpeg|png)$", ErrorMessage = "Only JPG, JPEG, and PNG files are allowed.")]
         public byte[]? profilePicture { get; set; }

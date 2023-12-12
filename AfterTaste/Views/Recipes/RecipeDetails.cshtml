@@ -35,7 +35,16 @@
                 </div>
                 <div class="gap-3 d-flex justify-content-center mb-2">
                     <a href=""><span class="badge rounded-pill text-bg-warning mx-2">@Model.Origin</span></a>
-                    <i class="bi bi-star-fill mx-2"></i>4.8
+                    @if (Model.AverageRating > 0)
+                    {
+                        <i class="bi bi-star-fill mx-2"></i>
+
+                        @Model.AverageRating.ToString("0.0")
+                    }else
+                    {
+                        <i class="bi bi-star-fill mx-2"></i>
+                        @(0.0);
+                    }
                     <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Model.recipeId"><i class="bi bi-heart mx-2"></i></a>
                     <a href="#" onclick="copyLink('@completeUrl')"><i class="bi bi-clipboard mx-2"></i></a>
 
@@ -91,6 +100,9 @@
            
             <section>
                 <h1 class="py-2">User Reviews</h1>
+                <button onclick="location.href='@Url.Action("AddReview", "Recipes", new { recipeId = Model.recipeId })'">
+                    Add a Review
+                </button>
                 <div class="container py-3">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12 col-lg-10 col-xl-8">
@@ -121,6 +133,57 @@
                 </div>
             </section>
 
+            @foreach (var review in ViewBag.Reviews)
+            {
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8">
+                        <!-- Display each review -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-start align-items-center">
+                                    <!-- Display review details here -->
+                                    @if (review.User != null && review.User.ProfilePicture != null)
+                                    {
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="data:image;base64,@Convert.ToBase64String(review.User.ProfilePicture)"
+                                             alt="avatar" width="60" height="60" />
+                                    }
+                                    else
+                                    {
+                                        <!-- Provide a default image or placeholder -->
+                                        <img class="rounded-circle shadow-1-strong me-3"
+                                             src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
+                                             alt="default avatar" width="60" height="60" />
+                                    }
+                                    <div>
+                                        <!-- Reviewer Name and Date -->
+                                        <h6 class="fw-bold text-primary mb-1">
+                                            @if (review.User != null)
+                                            {
+                                                @review.User.Firstname @Html.Raw(" ") @review.User.Lastname
+                                            }
+                                        </h6>
+                                        <p class="text-muted small mb-0">
+                                            Posted - @review.ReviewDate.ToString("MMM yyyy")
+                                        </p>
+                                        <!-- Review Rating -->
+                                        <p class="text-muted small mb-0">
+                                            <i class="bi bi-star-fill mx-2"></i>@review.Rating
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Review Comment -->
+                                <p class="mt-3 mb-4 pb-2">
+                                    @review.comment
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
         </div>
     </section><!-- Top Recipe Section -->
 
@@ -138,14 +201,12 @@
 
     <script>
         function copyLink(recipeUrl) {
-            // Use the Clipboard API to copy the recipe URL to the clipboard
+            
             navigator.clipboard.writeText(recipeUrl)
                 .then(function () {
-                    // On success, you can provide feedback to the user
                     alert('Recipe link copied to clipboard');
                 })
                 .catch(function (error) {
-                    // Handle any errors that might occur during copying
                     console.error('Failed to copy: ', error);
                     alert('Failed to copy recipe link to clipboard');
                 });

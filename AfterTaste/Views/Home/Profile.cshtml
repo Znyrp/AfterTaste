@@ -112,6 +112,7 @@
 											<th>Recipe Name</th>
 											<th>Recipe Author</th>
 											<th>Recipe Origin</th>
+											<th>Status</th>
 											<th>Show Details</th>
 										</tr>
 
@@ -121,6 +122,18 @@
 												<td>@recipe.recipeName</td>
 												<td>@recipe.User?.Firstname @recipe.User?.Lastname</td>
 												<td>@recipe.Origin</td>
+												<td>
+													@{
+														string badgeClass = recipe.Status switch
+														{
+															RecipeStatus.Approved => "badge bg-success",
+															RecipeStatus.Disapproved => "badge bg-danger",
+															RecipeStatus.Pending => "badge bg-secondary",
+															_ => "badge bg-secondary"
+														};
+													}
+													<span class="@badgeClass">@recipe.Status</span>
+												</td>
 												<td><a asp-action="RecipeDetails" asp-route-Id="@recipe.recipeId" asp-controller="Recipes" class="btn btn-warning btn-sm"><span><i class="bi bi-eye"></i></span>&nbsp; Show Details</a></td>
 											</tr>
 										}

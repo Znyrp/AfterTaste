@@ -2,6 +2,7 @@
 using AfterTaste.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AfterTaste.Controllers
 {
@@ -38,6 +39,35 @@ namespace AfterTaste.Controllers
             }
 
             return RedirectToAction("Dashboard"); // Or any other appropriate action
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRecipe(int id)
+        {
+            Recipe? recipe = await _dbData.Recipes.FirstOrDefaultAsync(rec => rec.recipeId == id);
+
+            if (recipe != null)
+            {
+                return View(recipe);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ActionName("DeleteRecipe")]
+        public async Task<IActionResult> DeleteRecipeConfirmed(int id)
+        {
+            Recipe? recipe = await _dbData.Recipes.FindAsync(id);
+
+            if (recipe != null)
+            {
+                _dbData.Recipes.Remove(recipe);
+                await _dbData.SaveChangesAsync();
+                return RedirectToAction("Dashboard");
+            }
+
+            return NotFound();
         }
     }
 }

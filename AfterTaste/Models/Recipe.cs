@@ -31,6 +31,18 @@ namespace AfterTaste.Models
         public Origin Origin { get; set; }
         public int? recipeCalories { get; set; }
         public RecipeStatus Status { get; set; }
+        public ICollection<UserReview>? Reviews { get; set; }
+
+        public double AverageRating
+        {
+            get
+            {
+                if (Reviews == null || !Reviews.Any())
+                    return 0;
+
+                return Reviews.Average(review => review.Rating);
+            }
+        }
     }
 
 }

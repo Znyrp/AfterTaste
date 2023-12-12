@@ -1,10 +1,12 @@
 ﻿using AfterTaste.Data;
 using AfterTaste.Models;
 using AfterTaste.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace AfterTaste.Controllers
 {
@@ -39,9 +41,7 @@ namespace AfterTaste.Controllers
 
 			var favoriteRecipeIds = _dbContext.Favorites.Where(f => f.userId == user.Id).Select(f => f.recipeId).ToList();
 
-			var favoriteRecipes = _dbContext.Recipes
-				.Include(r => r.User) // Ensure User data is included
-				.Where(r => favoriteRecipeIds.Contains(r.recipeId))
+			var favoriteRecipes = _dbContext.Recipes.Include(r => r.User) .Where(r => favoriteRecipeIds.Contains(r.recipeId))
 				.ToList();
 
 			var viewModel = new ProfileViewModel
@@ -61,15 +61,43 @@ namespace AfterTaste.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		[HttpPost]
-		public IActionResult AddContact(ContactUs newContact)
-		{
-			if (!ModelState.IsValid)
-				return View();
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddReview(int recipeId, int rating, string userComment)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			_dbContext.ContactUs.Add(newContact);
-			_dbContext.SaveChanges();
-			return View("Index");
-		}
-	}
+            try
+            {
+                var existingReview = await _dbContext.UserReviews.FirstOrDefaultAsync(r => r.RecipeId == recipeId && r.userId == userId);
+
+                if (existingReview != null)
+                {
+                    ModelState.AddModelError("", "You have already reviewed this recipe.");
+                    return RedirectToAction("RecipeDetails", new { id = recipeId });
+                }
+
+                var userReview = new UserReview
+                {
+                    userId = userId,
+                    Rating = rating,
+                    ReviewDate = DateTime.Now,
+                    RecipeId = recipeId,
+                    comment = userComment
+                };
+
+                _dbContext.UserReviews.Add(userReview);
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction("RecipeDetails", new { id = recipeId });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or provide an error message
+                ModelState.AddModelError("", "An error occurred while adding the review.");
+                return RedirectToAction("RecipeDetails", new { id = recipeId });
+            }
+        }
+
+    }
 }

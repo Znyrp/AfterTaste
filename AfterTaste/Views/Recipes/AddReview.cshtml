@@ -1,0 +1,42 @@
+﻿@model AfterTaste.Models.UserReview
+
+@{
+    ViewData["Title"] = "Add Review";
+}
+
+<!-- Other HTML code -->
+
+<section id="recipe" class="recipe">
+    <div class="add-recipe-container">
+        <div class="container">
+            <h1 class="display-6">Add a Review</h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <form asp-action="AddReview" asp-controller="Recipes" method="post">
+                        <input type="hidden" asp-for="RecipeId" value="@Model.RecipeId" />
+
+                        <div class="form-group">
+                            <label asp-for="Rating">Rating</label>
+                            <input asp-for="Rating" class="form-control" />
+                            <span asp-validation-for="Rating" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="comment">Comment</label>
+                            <textarea asp-for="comment" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="comment" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <input type="submit" value="Submit" class="sign-up-button" />
+                            <a type="button" class="sign-up-button" asp-action="RecipeDetails" asp-route-Id="@Model.RecipeId">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

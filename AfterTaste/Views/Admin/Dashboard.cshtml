@@ -20,6 +20,7 @@
                     <th scope="col">Origin</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
+                    <th scope="col">Show/Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,9 +36,9 @@
                                 string badgeClass = Recipe.Status switch
                                 {
                                     RecipeStatus.Approved => "badge bg-success",
-                                    RecipeStatus.Disapproved => "badge bg-warning",
+                                    RecipeStatus.Disapproved => "badge bg-danger",
                                     RecipeStatus.Pending => "badge bg-secondary",
-                                    _ => "badge bg-secondary" // Default to secondary if none of the cases match
+                                    _ => "badge bg-secondary"
                                 };
                             }
                             <span class="@badgeClass">@Recipe.Status</span>
@@ -54,9 +55,13 @@
                                     <li>
                                         <a class="dropdown-item" asp-controller="Admin" asp-action="ChangeStatus" asp-route-recipeId="@Recipe.recipeId" asp-route-status="Disapproved">Disapprove Recipe</a>
                                     </li>
-                                    <!-- Add more options as needed -->
                                 </ul>
                             </div>
+                        </td>
+                        <td>
+                            <a asp-action="RecipeDetails" asp-route-Id="@Recipe.recipeId" asp-controller="Recipes"><i class="bi bi-eye-fill fs-4"></i></a> 
+                            / 
+                            <a asp-action="DeleteRecipe" asp-route-Id="@Recipe.recipeId" asp-controller="Admin"><i class="bi bi-trash-fill fs-4"></i></a>
                         </td>
                     </tr>
                 }
