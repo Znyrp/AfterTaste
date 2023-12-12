@@ -25,6 +25,10 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 @foreach (var Recipe in Model.Where(r => r.Status == RecipeStatus.Approved))
                 {
+                    var recipeUrl = Url.Action("RecipeDetails", "Recipes", new { Id = Recipe.recipeId });
+                    var localhost = "http://localhost:5103";
+                    var completeUrl = localhost + recipeUrl;
+
                     <div class="col">
                         <div class="card">
                             <a asp-action="RecipeDetails" asp-route-Id="@Recipe.recipeId">
@@ -52,9 +56,9 @@
                             </div>
                             <div class="social d-flex justify-content-center mb-2 gap-4">
                                 <h4 style="font-family:Bahnschrift">
-                                    <a href=""><i class="bi bi-star-fill ms-2 me-1"></i>5</a>
+                                    <a href=""><i class="bi bi-star-fill mx-2"></i>5</a>
                                     <a asp-action="AddFavorite" asp-controller="Recipes" asp-route-Id="@Recipe.recipeId"><i class="bi bi-heart mx-2"></i></a>
-                                    <a href=""><i class="bi bi-arrow-return-right mx-2"></i></a>
+                                    <a href="#" onclick="copyLink('@completeUrl')"><i class="bi bi-clipboard mx-2"></i></a>
                                 </h4>
                             </div>
                             @if (User.Identity.IsAuthenticated && Recipe.userId == User.FindFirstValue(ClaimTypes.NameIdentifier))
@@ -73,7 +77,7 @@
             </div>
         </div>
 
-    </section><!-- Explore Section -->
+    </section><!-- Top Recipe Section -->
 
 
 
@@ -98,4 +102,19 @@
             <text>removeMessage(@recipeId); </text>
         }
     </script>
+
+    <script>
+        function copyLink(recipeUrl) {
+            
+            navigator.clipboard.writeText(recipeUrl)
+                .then(function () {
+                    alert('Recipe link copied to clipboard');
+                })
+                .catch(function (error) {
+                    console.error('Failed to copy: ', error);
+                    alert('Failed to copy recipe link to clipboard');
+                });
+        }
+    </script>
 }
+
