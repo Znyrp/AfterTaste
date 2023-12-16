@@ -27,6 +27,7 @@ namespace AfterTaste.Models
 
         [Required(ErrorMessage = "Recipe Description is required")]
         public string? recipeDescription { get; set; }
+        [Url]
         public string? recipeVideo { get; set; }
 
         [DataType(DataType.Upload)]

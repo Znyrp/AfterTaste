@@ -1,5 +1,6 @@
 ﻿using AfterTaste.Data;
 using AfterTaste.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +20,19 @@ namespace AfterTaste.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
             return View(_dbData.Recipes);
         }
-
-		public IActionResult Responses()
+        [Authorize(Roles = "Admin")]
+        public IActionResult Responses()
 		{
 			return View(_dbData.ContactUs);
 		}
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatus(int recipeId, RecipeStatus status)
         {
             var recipe = _dbData.Recipes.FirstOrDefault(r => r.recipeId == recipeId);
@@ -40,7 +44,7 @@ namespace AfterTaste.Controllers
 
             return RedirectToAction("Dashboard"); // Or any other appropriate action
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> DeleteRecipe(int id)
         {
@@ -53,7 +57,7 @@ namespace AfterTaste.Controllers
 
             return NotFound();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("DeleteRecipe")]
         public async Task<IActionResult> DeleteRecipeConfirmed(int id)
